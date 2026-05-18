@@ -1,25 +1,21 @@
 {
-  "name": "TrendForge AI by Nixora Dynamics",
-  "short_name": "TrendForge",
+  "name": "TrendForge AI by  Nixora Dynamics",
+  "short_name": "TrendForge AI",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#000000",
-  "description": "TrendForge AI trends analyzer platform.",
-  "orientation": "any",
-  "categories": ["productivity", "utilities"],
+  "background_color": "#050505",
+  "theme_color": "#12002a",
   "icons": [
     {
-      "src": "static/icon-192x192.png",
+      "src": "/static/images/icon-192x192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
+      "type": "image/png"
     },
     {
-      "src": "static/icon-512x512.png",
+      "src": "/static/images/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
+      "type": "image/png"
     }
-  ]
+  ],
+  "id": "Nixora-Dynamics "
 }
