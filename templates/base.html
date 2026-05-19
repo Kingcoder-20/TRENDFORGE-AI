@@ -11,13 +11,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}" />
+  
+  <!-- PWA Core Settings Links -->
   <link rel="manifest" href="/manifest.json?v=2">
+  <link rel="icon" type="image/png" sizes="192x192" href="/static/icon-192x192.png">
+  <link rel="apple-touch-icon" href="/static/icon-512x512.png">
 
-<!-- Meta tags for mobile styling -->
-<meta name="theme-color" content="#000000">
-<meta name="apple-mobile-web-app-capable" content="yes">
-
-<!-- Script to register the Service Worker safely -->
+  <!-- Meta tags for mobile styling -->
+  <meta name="theme-color" content="#000000">
+  <meta name="apple-mobile-web-app-capable" content="yes">
  
   {% block head %}{% endblock %}
 </head>
@@ -120,10 +122,11 @@
       </div>
     </div>
   </div>
+
   <!-- Custom PWA Install Button (Hidden by default) -->
-<button id="pwa-install-btn" style="display: none; background-color: #007bff; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: bold; margin: 15px auto; width: 90%; font-size: 16px; cursor: pointer; text-align: center;">
-   ✨ Install TrendForge App
-</button>
+  <button id="pwa-install-btn" style="display: none; background-color: #007bff; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: bold; margin: 15px auto; width: 90%; font-size: 16px; cursor: pointer; text-align: center;">
+     ✨ Install TrendForge App
+  </button>
   
   <!-- Hourly Polite Share Prompt -->
   <div id="hourly-share" class="modal" aria-hidden="true">
@@ -147,6 +150,7 @@
       <span class="muted" id="footer-date"></span>
     </div>
   </footer>
+
   <script>
   let deferredPrompt;
   const installBtn = document.getElementById('pwa-install-btn');
@@ -162,11 +166,8 @@
 
   // 2. Intercept the browser's hidden install event
   window.addEventListener('beforeinstallprompt', (e) => {
-    // Prevent the mobile browser from hiding the action
     e.preventDefault();
-    // Save the event state locally
     deferredPrompt = e;
-    // Unhide our custom button so the user can tap it manually
     if (installBtn) {
       installBtn.style.display = 'block';
     }
@@ -176,12 +177,9 @@
   if (installBtn) {
     installBtn.addEventListener('click', async () => {
       if (deferredPrompt) {
-        // Show the native Android install prompt dialog
         deferredPrompt.prompt();
-        // Wait for the user to tap "Accept" or "Cancel"
         const { outcome } = await deferredPrompt.userChoice;
         console.log(`User response to install: ${outcome}`);
-        // Reset the prompt state so it can't be clicked twice
         deferredPrompt = null;
         installBtn.style.display = 'none';
       }
@@ -197,7 +195,6 @@
   });
   </script>
   
-
   <script src="{{ url_for('static', filename='api.js') }}"></script>
   <script src="{{ url_for('static', filename='ui.js') }}"></script>
   {% block scripts %}{% endblock %}
