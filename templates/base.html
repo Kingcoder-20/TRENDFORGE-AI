@@ -18,15 +18,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
 <!-- Script to register the Service Worker safely -->
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js', { scope: '/' })
-        .then(reg => console.log('PWA active: ', reg.scope))
-        .catch(err => console.log('PWA registration failed: ', err));
-    });
-  }
-</script>
+ 
   {% block head %}{% endblock %}
 </head>
 <body>
@@ -128,7 +120,11 @@
       </div>
     </div>
   </div>
-
+  <!-- Custom PWA Install Button (Hidden by default) -->
+<button id="pwa-install-btn" style="display: none; background-color: #007bff; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: bold; margin: 15px auto; width: 90%; font-size: 16px; cursor: pointer; text-align: center;">
+   ✨ Install TrendForge App
+</button>
+  
   <!-- Hourly Polite Share Prompt -->
   <div id="hourly-share" class="modal" aria-hidden="true">
     <div class="modal-backdrop" data-close-modal></div>
@@ -151,6 +147,56 @@
       <span class="muted" id="footer-date"></span>
     </div>
   </footer>
+  <script>
+  let deferredPrompt;
+  const installBtn = document.getElementById('pwa-install-btn');
+
+  // 1. Register the Service Worker safely
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js', { scope: '/' })
+        .then(reg => console.log('Service Worker Registered'))
+        .catch(err => console.log('Service Worker Failed', err));
+    });
+  }
+
+  // 2. Intercept the browser's hidden install event
+  window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent the mobile browser from hiding the action
+    e.preventDefault();
+    // Save the event state locally
+    deferredPrompt = e;
+    // Unhide our custom button so the user can tap it manually
+    if (installBtn) {
+      installBtn.style.display = 'block';
+    }
+  });
+
+  // 3. Trigger the installation when the user taps the button
+  if (installBtn) {
+    installBtn.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        // Show the native Android install prompt dialog
+        deferredPrompt.prompt();
+        // Wait for the user to tap "Accept" or "Cancel"
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`User response to install: ${outcome}`);
+        // Reset the prompt state so it can't be clicked twice
+        deferredPrompt = null;
+        installBtn.style.display = 'none';
+      }
+    });
+  }
+
+  // 4. Hide the button automatically if the app installs successfully
+  window.addEventListener('appinstalled', () => {
+    console.log('TrendForge app successfully installed!');
+    if (installBtn) {
+      installBtn.style.display = 'none';
+    }
+  });
+  </script>
+  
 
   <script src="{{ url_for('static', filename='api.js') }}"></script>
   <script src="{{ url_for('static', filename='ui.js') }}"></script>
