@@ -3,12 +3,12 @@ const CACHE_NAME = 'trendforge-cache-v3'; // Incremented version to clear old ca
 // 1. Tell the worker exactly what assets it must save for offline use
 const urlsToCache = [
   '/',
-  '/landing.css',
-  '/api.js',       // Added leading slash for safety
-  '/ui.js',        // Added leading slash for safety
+  '/static/landing.css',
+  '/static/api.js',       // Added leading slash for safety
+  '/static/ui.js',        // Added leading slash for safety
   '/static/manifest.json',    // Fixed path to your static folder
-  '/static/icon-192x192.png', // Fixed path to your static folder
-  '/static/icon-512x512.png'  // Fixed path to your static folder
+  '/icons/icon-192.png', // Fixed path to your static folder
+  '/icons/icon-512.png'  // Fixed path to your static folder
 ];
 
 
