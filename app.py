@@ -752,14 +752,15 @@ def chat_page():
 
 @app.route('/manifest.json')
 def serve_manifest():
-    return send_from_directory('static', 'manifest.json')
-
+    return send_from_directory('static', 'manifest.json', mimetype='application/manifest+json')
+    
 @app.route('/sw.js')
 def serve_service_worker():
-    response = send_from_directory('static', 'sw.js')
+    response = send_from_directory('static', 'sw.js', mimetype='application/javascript')
     # This header ensures the worker can manage your entire website safely
     response.headers['Service-Worker-Allowed'] = '/'
     return response
+    
 
 # =========================
 # SIGNUP API
