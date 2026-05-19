@@ -3,12 +3,12 @@ const CACHE_NAME = 'trendforge-cache-v2';
 // 1. Tell the worker exactly what assets it must save for offline use
 const urlsToCache = [
   '/',
-  '/static/landing.css',
-  '/static/api.js',
-  '/static/ui.js',
-  '/static/manifest.json',
-  '/static/icon-192x192.png',
-  '/static/icon-512x512.png'
+  '/landing.css',
+  'api.js',
+  'ui.js',
+  'manifest.json',
+  'icon-192x192.png',
+  'icon-512x512.png'
 ];
 
 // Install Event: Save everything to the browser cache
